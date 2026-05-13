@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anuario Estadístico 2025 — UEICEE</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f2430;
+    --teal: #0f4f58;
+    --mint: #95ddd4;
+    --mustard: #f4c53d;
+    --white: #f8f9fa;
+    --gray: #e2e8ed;
+    --muted: #6b7c85;
+    --bubble-user: #0f4f58;
+    --bubble-bot: #ffffff;
+    --shadow: 0 4px 24px rgba(15,36,48,0.10);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  /* Background pattern */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(149,221,212,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(244,197,61,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    height: 92vh;
+    max-height: 820px;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--teal) 0%, #0a3540 100%);
+    border-radius: 16px 16px 0 0;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 2px solid var(--mint);
+  }
+
+  .header-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--mint);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .header-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--navy);
+  }
+
+  .header-text h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  .header-text p {
+    font-size: 12px;
+    color: var(--mint);
+    margin-top: 2px;
+    font-weight: 300;
+  }
+
+  .status-dot {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--mint);
+  }
+
+  .status-dot::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Chat area */
+  .chat-area {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--white);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scroll-behavior: smooth;
+  }
+
+  .chat-area::-webkit-scrollbar { width: 4px; }
+  .chat-area::-webkit-scrollbar-track { background: transparent; }
+  .chat-area::-webkit-scrollbar-thumb { background: var(--gray); border-radius: 4px; }
+
+  /* Welcome message */
+  .welcome {
+    text-align: center;
+    padding: 28px 20px;
+    color: var(--muted);
+  }
+
+  .welcome h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .welcome p {
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 420px;
+    margin: 0 auto 20px;
+  }
+
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .suggestion-btn {
+    background: #fff;
+    border: 1.5px solid var(--gray);
+    border-radius: 20px;
+    padding: 7px 14px;
+    font-size: 13px;
+    color: var(--teal);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .suggestion-btn:hover {
+    border-color: var(--mint);
+    background: #f0faf9;
+    transform: translateY(-1px);
+  }
+
+  /* Messages */
+  .message {
+    display: flex;
+    gap: 10px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .message.user {
+    flex-direction: row-reverse;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .message.bot .avatar {
+    background: var(--teal);
+    color: var(--mint);
+  }
+
+  .message.user .avatar {
+    background: var(--mustard);
+    color: var(--navy);
+  }
+
+  .bubble {
+    max-width: 78%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .message.bot .bubble {
+    background: var(--bubble-bot);
+    color: var(--navy);
+    border: 1.5px solid var(--gray);
+    border-top-left-radius: 4px;
+    box-shadow: var(--shadow);
+  }
+
+  .message.user .bubble {
+    background: var(--bubble-user);
+    color: #fff;
+    border-top-right-radius: 4px;
+  }
+
+  .sources {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--gray);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .sources span {
+    display: inline-block;
+    background: #f0f4f6;
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin: 2px 2px 0 0;
+  }
+
+  /* Typing indicator */
+  .typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 16px;
+  }
+
+  .typing span {
+    width: 7px;
+    height: 7px;
+    background: var(--muted);
+    border-radius: 50%;
+    animation: bounce 1.2s infinite;
+  }
+
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+
+  /* Input area */
+  .input-area {
+    background: #fff;
+    border-radius: 0 0 16px 16px;
+    padding: 14px 16px;
+    border-top: 1.5px solid var(--gray);
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  .input-wrap {
+    flex: 1;
+    position: relative;
+  }
+
+  textarea {
+    width: 100%;
+    border: 1.5px solid var(--gray);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--navy);
+    resize: none;
+    min-height: 44px;
+    max-height: 120px;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.5;
+  }
+
+  textarea:focus {
+    border-color: var(--teal);
+  }
+
+  textarea::placeholder {
+    color: var(--muted);
+  }
+
+  .send-btn {
+    width: 44px;
+    height: 44px;
+    background: var(--teal);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .send-btn:hover {
+    background: var(--navy);
+    transform: scale(1.05);
+  }
+
+  .send-btn:disabled {
+    background: var(--gray);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .send-btn svg {
+    width: 18px;
+    height: 18px;
+    color: #fff;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* Error */
+  .error-bubble {
+    background: #fef2f2;
+    border: 1.5px solid #fecaca;
+    color: #991b1b;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="header-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>Anuario de Estadísticas Educativas 2025</h1>
+      <p>UEICEE · Ministerio de Educación · CABA</p>
+    </div>
+    <div class="status-dot">En línea</div>
+  </div>
+
+  <div class="chat-area" id="chatArea">
+    <div class="welcome" id="welcome">
+      <h2>¿En qué puedo ayudarte?</h2>
+      <p>Consultá datos del sistema educativo de la Ciudad de Buenos Aires. Respondo con información del Anuario 2025.</p>
+      <div class="suggestions">
+        <button class="suggestion-btn" onclick="sendSuggestion(this.textContent)">¿Cuántas unidades educativas hay en CABA?</button>
+        <button class="suggestion-btn" onclick="sendSuggestion(this.textContent)">Matrícula por sector estatal y privado</button>
+        <button class="suggestion-btn" onclick="sendSuggestion(this.textContent)">Otras ofertas educativas 2025</button>
+        <button class="suggestion-btn" onclick="sendSuggestion(this.textContent)">Evolución histórica de alumnos</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+      <div style="display:flex; gap:10px; align-items:flex-end;">
+        <textarea
+          id="userInput"
+          placeholder="Hacé tu consulta sobre el Anuario..."
+          rows="1"
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="footer-note">Respuestas basadas exclusivamente en el Anuario de Estadísticas Educativas 2025</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────────────────────
+  const API_URL = "YOUR_RAILWAY_URL"; // Reemplazar con URL de Railway
+
+  let history = [];
+  let isLoading = false;
+
+  // ── UI HELPERS ───────────────────────────────────────────────────────────────
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  function scrollToBottom() {
+    const area = document.getElementById('chatArea');
+    area.scrollTop = area.scrollHeight;
+  }
+
+  function hideWelcome() {
+    const w = document.getElementById('welcome');
+    if (w) w.remove();
+  }
+
+  function addMessage(role, text, sources = []) {
+    const area = document.getElementById('chatArea');
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+
+    const avatarLabel = role === 'user' ? 'Vos' : 'UE';
+    const sourcesHTML = (role === 'bot' && sources.length > 0)
+      ? `<div class="sources">Fuentes: ${[...new Set(sources)].filter(Boolean).map(s => `<span>${s}</span>`).join('')}</div>`
+      : '';
+
+    div.innerHTML = `
+      <div class="avatar">${avatarLabel}</div>
+      <div class="bubble ${role === 'bot' && text.startsWith('Error') ? 'error-bubble' : ''}">
+        ${text.replace(/\n/g, '<br>')}
+        ${sourcesHTML}
+      </div>`;
+
+    area.appendChild(div);
+    scrollToBottom();
+    return div;
+  }
+
+  function addTyping() {
+    const area = document.getElementById('chatArea');
+    const div = document.createElement('div');
+    div.className = 'message bot';
+    div.id = 'typing';
+    div.innerHTML = `
+      <div class="avatar">UE</div>
+      <div class="bubble">
+        <div class="typing"><span></span><span></span><span></span></div>
+      </div>`;
+    area.appendChild(div);
+    scrollToBottom();
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('typing');
+    if (t) t.remove();
+  }
+
+  // ── SEND ─────────────────────────────────────────────────────────────────────
+  async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const btn = document.getElementById('sendBtn');
+    const text = input.value.trim();
+
+    if (!text || isLoading) return;
+
+    hideWelcome();
+    addMessage('user', text);
+    input.value = '';
+    input.style.height = 'auto';
+    isLoading = true;
+    btn.disabled = true;
+    addTyping();
+
+    try {
+      const res = await fetch(`${API_URL}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, history })
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      removeTyping();
+      addMessage('bot', data.answer, data.sources || []);
+
+      // Update history (keep last 6 turns)
+      history.push({ role: 'user', content: text });
+      history.push({ role: 'assistant', content: data.answer });
+      if (history.length > 12) history = history.slice(-12);
+
+    } catch (err) {
+      removeTyping();
+      addMessage('bot', `Error al conectar con el servidor. Verificá que el backend esté corriendo.\n\n${err.message}`);
+    }
+
+    isLoading = false;
+    btn.disabled = false;
+    input.focus();
+  }
+
+  function sendSuggestion(text) {
+    document.getElementById('userInput').value = text;
+    sendMessage();
+  }
+</script>
+</body>
+</html>
